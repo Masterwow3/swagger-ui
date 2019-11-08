@@ -84,6 +84,7 @@ const RequestBody = ({
     || contentType.indexOf("image/") === 0
     || contentType.indexOf("audio/") === 0
     || contentType.indexOf("video/") === 0
+    || (schemaForMediaType.get("type") === "string" && schemaForMediaType.get("format") == "binary")
   ) {
     const Input = getComponent("Input")
 
@@ -96,7 +97,7 @@ const RequestBody = ({
     return <Input type={"file"} onChange={handleFile} />
   }
 
-  if (
+   if (
     isObjectContent &&
     (
       contentType === "application/x-www-form-urlencoded" ||
