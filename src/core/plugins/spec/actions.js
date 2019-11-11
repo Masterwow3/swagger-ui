@@ -410,6 +410,19 @@ export const executeRequest = (req) =>
         req.requestBody = requestBody
       }
     }
+          
+    // fix for array of files
+    for (let key in req.requestBody) {
+      if (req.requestBody[key] instanceof Array && 
+          req.requestBody[key].length > 0 &&
+          req.requestBody[key].every(item => item instanceof File)
+      ) {
+       for (let i = 0; i < req.requestBody[key].length; i++) {
+         req.requestBody[key + String(i)] = req.requestBody[key][i];
+       }
+       delete req.requestBody[key];
+      }
+    }
 
     let parsedRequest = Object.assign({}, req)
     parsedRequest = fn.buildRequest(parsedRequest)
